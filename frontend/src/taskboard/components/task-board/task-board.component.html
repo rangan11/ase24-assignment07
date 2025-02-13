@@ -1,0 +1,51 @@
+<div class="search-container">
+    <input type="text" [(ngModel)]="searchQuery" (input)="filterTasks()" placeholder="Filter tasks..." />
+</div>
+
+<div class="task-board">
+    <div class="task-column" (dragover)="allowDrop($event)" (drop)="onTaskDrop($event, 'TODO')">
+        <h3>TODO</h3>
+        <div *ngFor="let task of todoTasks" class="task-card todo-task" draggable="true"
+            (dragstart)="onDragStart($event, task.id!)">
+            <h4>{{ task.title }}</h4>
+            <p>{{ task.description }}</p>
+            <select (change)="updateAssignee(task, $event)">
+                <option [value]="null" [selected]="!task.assignee">Unassigned</option>
+                <option *ngFor="let user of users" [value]="user.id" [selected]="user.id === task.assignee?.id">
+                    {{ user.name }}
+                </option>
+            </select>
+        </div>
+    </div>
+
+    <div class="task-column" (dragover)="allowDrop($event)" (drop)="onTaskDrop($event, 'DOING')">
+        <h3>DOING</h3>
+        <div *ngFor="let task of doingTasks" class="task-card doing-task" draggable="true"
+            (dragstart)="onDragStart($event, task.id!)">
+            <h4>{{ task.title }}</h4>
+            <p>{{ task.description }}</p>
+            <select (change)="updateAssignee(task, $event)">
+                <option [value]="null" [selected]="!task.assignee">Unassigned</option>
+                <option *ngFor="let user of users" [value]="user.id" [selected]="user.id === task.assignee?.id">
+                    {{ user.name }}
+                </option>
+            </select>
+        </div>
+    </div>
+
+    <div class="task-column" (dragover)="allowDrop($event)" (drop)="onTaskDrop($event, 'DONE')">
+        <h3>DONE</h3>
+        <div *ngFor="let task of doneTasks" class="task-card done-task" draggable="true"
+            (dragstart)="onDragStart($event, task.id!)">
+            <h4>{{ task.title }}</h4>
+            <p>{{ task.description }}</p>
+            <select (change)="updateAssignee(task, $event)">
+                <option [value]="null" [selected]="!task.assignee">Unassigned</option>
+                <option *ngFor="let user of users" [value]="user.id" [selected]="user.id === task.assignee?.id">
+                    {{ user.name }}
+                </option>
+            </select>
+        </div>
+    </div>
+
+</div>
